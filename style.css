@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: #fafafa;
+}
+
+button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+button:hover {
+  background: #f0f0f0;
+}
+
+input {
+  padding: 6px;
+  margin-right: 5px;
+}
+
+.status-open {
+  color: #1e88e5;
+  font-weight: bold;
+}
+
+.status-accepted {
+  color: #fb8c00;
+  font-weight: bold;
+}
+
+.status-funded {
+  color: #8e24aa;
+  font-weight: bold;
+}
+
+.status-completed {
+  color: #2e7d32;
+  font-weight: bold;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trustless Marketplace</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>Trustless Marketplace (Sepolia)</h1>
+
+  <button id="connectBtn">Connect Wallet</button>
+  <p id="account"></p>
+
+  <hr />
+
+  <h2>Platform Info</h2>
+  <div class="card">
+    <p>Platform fee: <span id="platformFee">-</span>%</p>
+    <p>Accumulated fees: <span id="accFees">-</span> ETH</p>
+    <button id="withdrawBtn" style="display:none;">Withdraw Fees</button>
+  </div>
+
+  <hr />
+
+  <h2>Create Order</h2>
+  <div class="card">
+    <input id="description" placeholder="Description" />
+    <input id="amount" placeholder="Amount in ETH" />
+    <button id="createBtn">Create Order</button>
+  </div>
+
+  <hr />
+
+  <h2>Orders</h2>
+  <div id="orders"></div>
+
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
