@@ -90,11 +90,8 @@ async function loadPlatformInfo() {
     functionName: "owner"
   });
 
-  document.getElementById("platformFee").innerText =
-    fee.toString();
-
-  document.getElementById("accFees").innerText =
-    formatEther(acc);
+  document.getElementById("platformFee").innerText = fee.toString();
+  document.getElementById("accFees").innerText = formatEther(acc);
 
   if (
     account &&
@@ -142,22 +139,28 @@ async function loadOrders() {
       account.toLowerCase() === freelancer.toLowerCase();
 
     let statusText = "";
+    let statusClass = "";
 
     switch (status) {
       case 0:
         statusText = "Open";
+        statusClass = "status-open";
         break;
       case 1:
         statusText = "Accepted";
+        statusClass = "status-accepted";
         break;
       case 2:
         statusText = "Funded";
+        statusClass = "status-funded";
         break;
       case 3:
         statusText = "Completed";
+        statusClass = "status-completed";
         break;
       case 4:
         statusText = "Cancelled";
+        statusClass = "status-cancelled";
         break;
     }
 
@@ -170,13 +173,14 @@ async function loadOrders() {
       <p>Freelancer: ${freelancer}</p>
       <p>Description: ${description}</p>
       <p>Amount: ${formatEther(amount)} ETH</p>
-      <p>Status: ${statusText}</p>
+      <p>Status: <span class="${statusClass}">${statusText}</span></p>
     `;
 
-    // ACCEPT (Open => Accepted)
+    // ACCEPT
     if (status === 0 && account && !isClient) {
       const btn = document.createElement("button");
       btn.innerText = "Accept";
+      btn.className = "btn-accept";
       btn.onclick = async () => {
         await walletClient.writeContract({
           address: contractAddress,
@@ -190,10 +194,11 @@ async function loadOrders() {
       card.appendChild(btn);
     }
 
-    // FUND (Accepted => Funded)
+    // FUND
     if (status === 1 && isClient) {
       const btn = document.createElement("button");
       btn.innerText = "Fund";
+      btn.className = "btn-fund";
       btn.onclick = async () => {
         await walletClient.writeContract({
           address: contractAddress,
@@ -208,10 +213,11 @@ async function loadOrders() {
       card.appendChild(btn);
     }
 
-    // CONFIRM (Funded => Completed)
+    // CONFIRM
     if (status === 2 && isClient) {
       const btn = document.createElement("button");
       btn.innerText = "Confirm Completion";
+      btn.className = "btn-confirm";
       btn.onclick = async () => {
         await walletClient.writeContract({
           address: contractAddress,
@@ -230,13 +236,14 @@ async function loadOrders() {
     if (
       account &&
       (
-        (status === 0 && isClient) ||      // Client cancels Open
-        (status === 1 && isFreelancer) ||  // Freelancer cancels Accepted
-        (status === 2 && isClient)         // Client cancels Funded
+        (status === 0 && isClient) ||
+        (status === 1 && isFreelancer) ||
+        (status === 2 && isClient)
       )
     ) {
       const btn = document.createElement("button");
       btn.innerText = "Cancel";
+      btn.className = "btn-cancel";
       btn.onclick = async () => {
         await walletClient.writeContract({
           address: contractAddress,
@@ -255,6 +262,6 @@ async function loadOrders() {
   }
 }
 
-// Initial load (без кошелька можно смотреть)
+// Initial load
 loadOrders();
 loadPlatformInfo();

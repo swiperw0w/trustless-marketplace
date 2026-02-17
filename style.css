@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   max-width: 900px;
   margin: 40px auto;
+  background: #f7f9fc;
 }
 
 h1 {
@@ -9,29 +10,61 @@ h1 {
 }
 
 .card {
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 15px;
-  background: #fafafa;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
+
+/* BUTTONS */
 
 button {
   padding: 6px 12px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: none;
   cursor: pointer;
-  margin-top: 5px;
+  margin-top: 8px;
+  margin-right: 6px;
+  font-weight: 500;
+  transition: 0.2s ease;
 }
 
 button:hover {
-  background: #f0f0f0;
+  opacity: 0.85;
 }
+
+/* Specific action buttons */
+
+.btn-accept {
+  background: #1e88e5;
+  color: white;
+}
+
+.btn-fund {
+  background: #8e24aa;
+  color: white;
+}
+
+.btn-confirm {
+  background: #2e7d32;
+  color: white;
+}
+
+.btn-cancel {
+  background: #e53935;
+  color: white;
+}
+
+/* INPUTS */
 
 input {
   padding: 6px;
   margin-right: 5px;
 }
+
+/* STATUS COLORS */
 
 .status-open {
   color: #1e88e5;
@@ -50,5 +83,10 @@ input {
 
 .status-completed {
   color: #2e7d32;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: #e53935;
   font-weight: bold;
 }
