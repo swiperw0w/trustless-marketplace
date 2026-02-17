@@ -155,24 +155,24 @@ async function loadOrders() {
         const amount = order[3];
         const status = order[4];
 
-        console.log("status:", status, typeof status);
+        console.log("status:", status, typeof status);ш
 
         let statusText = "";
         let statusClass = "";
 
-        if (status === 0n) {
+        if (status === 0) {
           statusText = "Open";
           statusClass = "status-open";
         }
-        if (status === 1n) {
+        if (status === 1) {
           statusText = "Accepted";
           statusClass = "status-accepted";
         }
-        if (status === 2n) {
+        if (status === 2) {
           statusText = "Funded";
           statusClass = "status-funded";
         }
-        if (status === 3n) {
+        if (status === 3) {
           statusText = "Completed";
           statusClass = "status-completed";
         }
@@ -191,7 +191,7 @@ async function loadOrders() {
 
         // ACCEPT
         if (
-          status === 0n &&
+          status === 0 &&
           account &&
           account.toLowerCase() !== client.toLowerCase()
         ) {
@@ -212,7 +212,7 @@ async function loadOrders() {
 
         // FUND
         if (
-          status === 1n &&
+          status === 1 &&
           account &&
           account.toLowerCase() === client.toLowerCase()
         ) {
@@ -234,7 +234,7 @@ async function loadOrders() {
 
         // CONFIRM COMPLETION
         if (
-          status === 2n &&
+          status === 2 &&
           account &&
           account.toLowerCase() === client.toLowerCase()
         ) {
