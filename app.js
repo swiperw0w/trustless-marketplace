@@ -12,8 +12,10 @@ import { abi } from "./abi.js";
 
 console.log("app loaded");
 
+// Адрес задеплоенного смарт-контракта
 const contractAddress = "0x772857301abC99E453918f2A6112C8D6d3615702";
 
+// Адрес задеплоенного смарт-контракта
 let account = null;
 
 // PUBLIC CLIENT (RPC)
@@ -28,7 +30,7 @@ const walletClient = createWalletClient({
   transport: custom(window.ethereum)
 });
 
-// CONNECT WALLET
+// ПОДКЛЮЧЕНИЕ КОШЕЛЬКА
 document.getElementById("connectBtn").onclick = async () => {
   const accounts = await walletClient.requestAddresses();
   account = accounts[0];
@@ -40,7 +42,7 @@ document.getElementById("connectBtn").onclick = async () => {
   await loadOrders();
 };
 
-// CREATE ORDER
+// СОЗДАНИЕ ЗАКАЗА
 document.getElementById("createBtn").onclick = async () => {
   const description = document.getElementById("description").value;
   const amount = document.getElementById("amount").value;
@@ -57,7 +59,7 @@ document.getElementById("createBtn").onclick = async () => {
   await loadOrders();
 };
 
-// WITHDRAW FEES
+// ВЫВОД КОМИССИИ
 document.getElementById("withdrawBtn").onclick = async () => {
   await walletClient.writeContract({
     address: contractAddress,
@@ -70,7 +72,7 @@ document.getElementById("withdrawBtn").onclick = async () => {
   await loadPlatformInfo();
 };
 
-// LOAD PLATFORM INFO
+// ЗАГРУЗКА ИНФОРМАЦИИ О ПЛАТФОРМЕ
 async function loadPlatformInfo() {
   const fee = await publicClient.readContract({
     address: contractAddress,
@@ -93,6 +95,7 @@ async function loadPlatformInfo() {
   document.getElementById("platformFee").innerText = fee.toString();
   document.getElementById("accFees").innerText = formatEther(acc);
 
+  // Показываем кнопку вывода комиссии только владельцу
   if (
     account &&
     account.toLowerCase() === owner.toLowerCase()
@@ -105,7 +108,7 @@ async function loadPlatformInfo() {
   }
 }
 
-// LOAD ORDERS
+// ЗАГРУЗКА ВСЕХ ЗАКАЗОВ
 async function loadOrders() {
   const counter = await publicClient.readContract({
     address: contractAddress,
@@ -123,13 +126,15 @@ async function loadOrders() {
       functionName: "orders",
       args: [i]
     });
-
+  
+    // Данные заказа
     const client = order[0];
     const freelancer = order[1];
     const description = order[2];
     const amount = order[3];
-    const status = order[4]; // enum = number
+    const status = order[4];
 
+    // Проверяем роли текущего пользователя
     const isClient =
       account &&
       account.toLowerCase() === client.toLowerCase();
@@ -138,6 +143,7 @@ async function loadOrders() {
       account &&
       account.toLowerCase() === freelancer.toLowerCase();
 
+    // Определяем текст и цвет статуса
     let statusText = "";
     let statusClass = "";
 
@@ -164,6 +170,7 @@ async function loadOrders() {
         break;
     }
 
+    // Создаём карточку заказа
     const card = document.createElement("div");
     card.className = "card";
 
@@ -176,7 +183,7 @@ async function loadOrders() {
       <p>Status: <span class="${statusClass}">${statusText}</span></p>
     `;
 
-    // ACCEPT
+    // КНОПКА ACCEPT (Доступна если заказ открыт и пользователь не клиент)
     if (status === 0 && account && !isClient) {
       const btn = document.createElement("button");
       btn.innerText = "Accept";
@@ -194,7 +201,7 @@ async function loadOrders() {
       card.appendChild(btn);
     }
 
-    // FUND
+    // КНОПКА FUND (Клиент вносит депозит)
     if (status === 1 && isClient) {
       const btn = document.createElement("button");
       btn.innerText = "Fund";
@@ -213,7 +220,7 @@ async function loadOrders() {
       card.appendChild(btn);
     }
 
-    // CONFIRM
+    // КНОПКА CONFIRM (Клиент подтверждает выполнение)
     if (status === 2 && isClient) {
       const btn = document.createElement("button");
       btn.innerText = "Confirm Completion";
@@ -232,7 +239,7 @@ async function loadOrders() {
       card.appendChild(btn);
     }
 
-    // CANCEL
+    // КНОПКА CANCEL (Логика отмены зависит от статуса и роли)
     if (
       account &&
       (
@@ -262,6 +269,6 @@ async function loadOrders() {
   }
 }
 
-// Initial load
+// Первичная загрузка данных при открытии страницы
 loadOrders();
 loadPlatformInfo();
