@@ -155,6 +155,8 @@ async function loadOrders() {
         const amount = order[3];
         const status = order[4];
 
+        console.log("status:", status, typeof status);
+
         let statusText = "";
         let statusClass = "";
 
